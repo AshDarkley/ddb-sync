@@ -14,7 +14,7 @@
 #     information.
 #
 #   - Are all the proper files and directories being included in the release's
-#     module archive ("module.zip")?
+#     module archive ("ddb-sync.zip")?
 #     Check that the correct files are being passed to the `zip` command run
 #     in the "Create Module Archive" step below.
 #
@@ -103,7 +103,7 @@ jobs:
           DOWNLOAD: ${{ env.release_module_url }}
 
 
-      # Create a "module.zip" archive containing all the module's required files.
+      # Create a "ddb-sync.zip" archive containing all the module's required files.
       # If you have other directories or files that will need to be added to
       # your packaged module, add them here.
       - name: Create Module Archive
@@ -114,7 +114,7 @@ jobs:
             `# Options`                          \
             --recurse-paths                      \
             `# The name of the output file`      \
-             ./module.zip                        \
+             ./ddb-sync.zip                        \
             `# The files that will be included.` \
             module.json                          \
             README.md                            \
