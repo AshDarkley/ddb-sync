@@ -14,7 +14,7 @@
 #     information.
 #
 #   - Are all the proper files and directories being included in the release's
-#     module archive ("ddb-sync.zip")?
+#     module archive ("module.zip")?
 #     Check that the correct files are being passed to the `zip` command run
 #     in the "Create Module Archive" step below.
 #
@@ -45,7 +45,7 @@ env:
 
   # The URL to the module archive associated with the module release being
   # processed by this workflow.
-  release_module_url: "https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/ddb-sync.zip"
+  release_module_url: "https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.zip"
 
 
 on:
@@ -103,7 +103,7 @@ jobs:
           DOWNLOAD: ${{ env.release_module_url }}
 
 
-      # Create a "ddb-sync.zip" archive containing all the module's required files.
+      # Create a "module.zip" archive containing all the module's required files.
       # If you have other directories or files that will need to be added to
       # your packaged module, add them here.
       - name: Create Module Archive
@@ -114,7 +114,7 @@ jobs:
             `# Options`                          \
             --recurse-paths                      \
             `# The name of the output file`      \
-             ./ddb-sync.zip                        \
+             ./module.zip                        \
             `# The files that will be included.` \
             module.json                          \
             README.md                            \
@@ -139,6 +139,6 @@ jobs:
           draft: ${{ github.event.release.unpublished }}
           prerelease: ${{ github.event.release.prerelease }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: './module.json, ./ddb-sync.zip'
+          artifacts: './module.json, ./module.zip'
           tag: ${{ github.event.release.tag_name }}
           body: ${{ github.event.release.body }}
