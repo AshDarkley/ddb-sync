@@ -6,6 +6,10 @@
 
 A Foundry VTT module that synchronizes D&D Beyond dice rolls and character health with Foundry VTT in real-time using a WebSocket-based listener and modular service/handler architecture.  No browser extensions needed!
 
+## Patreon
+
+Full functionality of this module is freely available.  However, if you like it please consider providing support.  Any you can give is greatly appreciated.  [Patreon](https://patreon.com/ashdarkley)
+
 ## Overview
 
 DDB Sync listens for messages from D&D Beyond; deduplicates and dispatches them to specialized handlers to:
