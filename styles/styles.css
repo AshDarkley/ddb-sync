@@ -1,0 +1,380 @@
+.ddb-character-mapping-form {
+  padding: 15px;
+}
+
+.ddb-character-mapping-form .form-header {
+  margin-bottom: 20px;
+  border-bottom: 2px solid #782e22;
+  padding-bottom: 10px;
+}
+
+.ddb-character-mapping-form .form-header h2 {
+  margin: 0 0 10px 0;
+  color: #782e22;
+}
+
+.ddb-character-mapping-form .notes {
+  font-style: italic;
+  color: #666;
+  margin: 0;
+  font-size: 0.9em;
+}
+
+.ddb-character-mapping-form .mapping-list {
+  margin-bottom: 25px;
+}
+
+.ddb-character-mapping-form .mappings-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.ddb-character-mapping-form .mappings-table th,
+.ddb-character-mapping-form .mappings-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.ddb-character-mapping-form .mappings-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.ddb-character-mapping-form .no-mappings {
+  font-style: italic;
+  color: #999;
+  text-align: center;
+  padding: 20px;
+}
+
+.ddb-character-mapping-form .add-mapping-section {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.ddb-character-mapping-form .add-mapping-section h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.ddb-character-mapping-form .form-group {
+  margin-bottom: 15px;
+}
+
+.ddb-character-mapping-form .form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.ddb-character-mapping-form .form-group input[type="text"],
+.ddb-character-mapping-form .form-group select {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+  line-height: 1.5;
+}
+
+.ddb-character-mapping-form .hint {
+  font-size: 0.85em;
+  color: #666;
+  margin: 5px 0 0 0;
+  font-style: italic;
+}
+
+.ddb-character-mapping-form button {
+  background-color: #782e22;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.ddb-character-mapping-form button:hover {
+  background-color: #5a1f16;
+}
+
+.ddb-character-mapping-form button i {
+  margin-right: 5px;
+}
+
+.ddb-character-mapping-form .remove-mapping {
+  background-color: #c53131;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.ddb-character-mapping-form .remove-mapping:hover {
+  background-color: #a02020;
+}
+
+.ddb-character-mapping-form .connection-test {
+  text-align: center;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
+
+.ddb-character-mapping-form .test-connection {
+  background-color: #4a90e2;
+}
+
+.ddb-character-mapping-form .test-connection:hover {
+  background-color: #357abd;
+}
+
+/* Settings button styling */
+button[data-action="ddb-character-mapping"] {
+  margin-top: 10px;
+}
+
+/* Manual Dice Toggle on Actor Sheet */
+.ddb-manual-dice-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
+  padding: 2px 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.ddb-manual-dice-toggle input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+.ddb-manual-dice-toggle label {
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ddb-manual-dice-toggle label i {
+  margin-right: 3px;
+  color: #782e22;
+}
+
+/* Manual Dice Entry Dialog */
+.ddb-dice-form, .ddb-manual-dice-form {
+  padding: 5px;
+}
+
+.ddb-dice-form .form-group, .ddb-manual-dice-form .form-group {
+  margin-bottom: 12px;
+}
+
+.ddb-dice-form .form-group label, .ddb-manual-dice-form .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.ddb-dice-form input[type="number"], .ddb-manual-dice-form input[type="number"] {
+  width: 60px;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.ddb-dice-form input[type="number"]:focus,
+.ddb-manual-dice-form input[type="number"]:focus {
+  border-color: #782e22;
+  outline: none;
+  box-shadow: 0 0 3px rgba(120, 46, 34, 0.3);
+}
+
+/* DDB Sync Chat Card Styles */
+.ddb-sync-chat-card .gm-only {
+  display: none !important;
+}
+
+/* Show gm-only elements only to GM - multiple selectors for different Foundry versions */
+body.gm .ddb-sync-chat-card .gm-only,
+body.game.gm .ddb-sync-chat-card .gm-only,
+.game.gm .ddb-sync-chat-card .gm-only,
+body[data-user-isGM="true"] .ddb-sync-chat-card .gm-only,
+html.gm .ddb-sync-chat-card .gm-only {
+  display: block !important;
+}
+
+/* Fallback: Use JavaScript to add this class */
+.ddb-sync-chat-card.show-gm-info .gm-only {
+  display: block !important;
+}
+
+/* Dice tooltip details styling */
+.dice-tooltip-details[open] > summary > i.fa-caret-right {
+  transform: rotate(90deg);
+}
+
+.dice-tooltip-details summary {
+  cursor: pointer;
+  padding: 4px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 3px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.dice-tooltip-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.dice-tooltip-content {
+  padding: 8px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 0 0 3px 3px;
+  margin-top: 2px;
+}
+
+/* DDB Damage Card Button Styles */
+.ddb-sync-chat-card .card-buttons {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  column-gap: 4px !important;
+  row-gap: 12px !important;
+  margin: 12px 0 !important;
+  width: 100%;
+}
+
+.ddb-sync-chat-card .card-buttons button {
+  flex: 1 1 auto !important;
+  min-width: 70px !important;
+  padding: 8px 4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  border: none !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s !important;
+  background-color: #6c757d;
+  color: white !important;
+}
+
+/* Allow inline styles to override default button color */
+.ddb-sync-chat-card .card-buttons button[style*="background-color"] {
+  background-color: inherit;
+  color: white !important;
+}
+
+.ddb-sync-chat-card .card-buttons button:hover:not([style*="background-color"]) {
+  background-color: #5a6268 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+}
+
+.ddb-sync-chat-card .card-buttons button i {
+  margin-right: 4px !important;
+  font-size: 14px !important;
+}
+
+/* Damage Options Styling */
+.damage-options {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 8px 4px;
+  background: rgba(0,0,0,0.02);
+  border-radius: 3px;
+}
+
+.damage-option {
+  padding: 6px 10px;
+  background-color: rgba(0,0,0,0.05);
+  border: 1px solid #999;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.damage-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Vulnerability Styling - High Priority */
+.damage-option[data-damage-type="vulnerability"],
+.damage-options .damage-option[style*="rgb(200, 0, 0"] {
+  animation: pulse-vulnerable 1s ease-in-out infinite;
+}
+
+@keyframes pulse-vulnerable {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(200, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 8px 2px rgba(200, 0, 0, 0.2);
+  }
+}
+
+/* Recommended Styling */
+.damage-option[style*="rgb(0, 100, 0"],
+.damage-options .damage-option:has(span:contains("✓ Best")) {
+  animation: pulse-recommended 1s ease-in-out infinite;
+}
+
+@keyframes pulse-recommended {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 150, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 6px 1px rgba(0, 150, 0, 0.15);
+  }
+}
+
+/* Resistant styling - GM only */
+.damage-option.gm-only {
+  opacity: 0.8;
+}
+
+/* Active/Selected Damage Option */
+.damage-option.selected {
+  transform: scale(1.05);
+  font-weight: bold;
+}
+
+/* Damage Option Tooltip/Info */
+.damage-option-info {
+  margin-top: 6px;
+  font-size: 0.9em;
+  padding: 4px 4px;
+  border-left: 3px solid #ccc;
+  padding-left: 8px;
+}
+
+.damage-option-info[style*="color: #c00"] {
+  border-left-color: #c00;
+}
+
+.damage-option-info[style*="color: #b8860b"] {
+  border-left-color: #b8860b;
+}
+
+.damage-option-info[style*="color: #4a4a4a"] {
+  border-left-color: #4a4a4a;
+}

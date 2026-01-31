@@ -1,0 +1,53 @@
+<form class="ddb-character-mapping-form">
+  <p class="notes">Map your D&D Beyond characters to Foundry actors. The Character ID can be found in your DDB character's URL (e.g., dndbeyond.com/characters/<strong>108858758</strong>).</p>
+
+  <h3>Current Mappings</h3>
+  {{#if mappings.length}}
+  <table class="mapping-table">
+    <thead>
+      <tr>
+        <th>DDB Character ID</th>
+        <th>Foundry Actor</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each mappings}}
+      <tr>
+        <td>{{this.ddbCharacterId}}</td>
+        <td>{{this.actorName}}</td>
+        <td>
+          <button type="button" class="remove-mapping" data-ddb-id="{{this.ddbCharacterId}}">
+            <i class="fas fa-trash"></i> Remove
+          </button>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{else}}
+  <p class="no-mappings">No character mappings configured yet.</p>
+  {{/if}}
+
+  <hr>
+
+  <h3>Add New Mapping</h3>
+  <div class="form-group">
+    <label for="new-ddb-id">DDB Character ID:</label>
+    <input type="text" name="new-ddb-id" placeholder="e.g., 108858758">
+  </div>
+
+  <div class="form-group" style="margin-bottom: 1rem;">
+    <label for="new-actor-id">Foundry Actor:</label>
+    <select name="new-actor-id">
+      <option value="">-- Select Actor --</option>
+      {{#each actors}}
+      <option value="{{this.id}}">{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <button type="button" class="add-mapping" style="margin-top: 0.5rem;">
+    <i class="fas fa-plus"></i> Add Mapping
+  </button>
+</form>
