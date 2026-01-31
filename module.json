@@ -4,7 +4,7 @@
   "version": "0.0.5",
   "url": "https://github.com/AshDarkley/ddb-sync",
   "manifest": "https://github.com/AshDarkley/ddb-sync/releases/download/latest/module.json",
-  "download": "https://github.com/AshDarkley/ddb-sync/releases/download/latest/ddb-sync.zip",
+  "download": "https://github.com/AshDarkley/ddb-sync/releases/download/latest/module.zip",
   "license": "MIT License",
   "readme": "https://github.com/AshDarkley/ddb-sync/blob/main/README.md",
   "changelog": "https://github.com/AshDarkley/ddb-sync/blob/main/CHANGELOG.md",
