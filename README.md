@@ -1,6 +1,10 @@
 # DDB Sync Module
 
-A Foundry VTT module that synchronizes D&D Beyond dice rolls and character health with Foundry VTT in real-time using a WebSocket-based listener and modular service/handler architecture.
+![Latest Release Download Count](https://img.shields.io/badge/dynamic/json?label=Downloads%20(Latest)&query=assets%5B0%5D.download_count&url=https%3A%2F%2Fapi.github.com%2Frepos%2FAshDarkley%2Fddb-sync%2Freleases%2Flatest)
+![Foundry Minimum Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2FAshDarkley%2Fddb-sync%2Fmain%2Fmodule.json&label=Foundry%20Version&query=$.compatibility.minimum&colorB=orange)
+![Foundry Verified Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2FAshDarkley%2Fddb-sync%2Fmain%2Fmodule.json&label=Foundry%20Version&query=$.compatibility.verified&colorB=green)
+
+A Foundry VTT module that synchronizes D&D Beyond dice rolls and character health with Foundry VTT in real-time using a WebSocket-based listener and modular service/handler architecture.  No browser extensions needed!
 
 ## Overview
 
@@ -8,6 +12,33 @@ DDB Sync listens for messages from D&D Beyond; deduplicates and dispatches them 
 - Capture and apply dice rolls to Foundry actors
 - Sync HP/damage updates without overwriting unrelated character data
 - Provide a UI for mapping D&D Beyond characters to Foundry actors
+
+## System Requirements
+- **Foundry VTT**: Version 13 or higher (verified on v13)
+- **D&D 5e System**: Required for character and ability mapping
+- **DDB Proxy**: Required to proxy requests to D&D Beyond.  Must be your own install and not Mr Primates hosted version as this require a small change to the proxy to function correctly. 
+
+## IMPORTANT! REQUIRES custom DDB Proxy
+- **DDB Proxy** - A proxy server for D&D Beyond API Access
+  - GitHub: [ddb-proxy repository](https://github.com/MrPrimate/ddb-proxy)
+  - The proxy intercepts D&D Beyond API calls and provides authenticated access 
+
+**Important**: The DDB Proxy requires a manual configuration change before use.
+
+1. Set up the DDB Proxy server from the repository
+2. Open the proxy's `index.js` file
+3. Locate the `/proxy/auth` endpoint
+4. Modify the auth response to include the token:
+    ```javascript
+    // Find this section in index.js:
+    res.json({
+        token: token, // ADD THIS LINE
+    });
+    ```
+5. Restart the proxy server
+
+This ensures the module can receive the authentication token needed for subsequent API calls.
+
 
 ## Key Capabilities
 - Real-time WebSocket listener with reconnection handling (`websocket/DDBWebSocket.js`)
@@ -36,22 +67,42 @@ This separation keeps message handling, business logic, and Foundry integration 
 
 ## Configuration
 Configure settings via the module settings (registered in `config/SettingsRegistry.js`):
-- `cobaltCookie` — D&D Beyond `CobaltSession` cookie (for proxied API access)
-- `userId` — D&D Beyond user id used to scope incoming messages
-- `campaignId` — campaign identifier (optional filter)
-- `proxyUrl` — optional proxy server URL (e.g., `http://localhost:3000`)
-- `captureRolls` (boolean) — enable/disable automatic roll capture
-- `updateDamageOnly` (boolean) — when true, only HP/damage updates are applied automatically
-- `characterMapping` — mapping of DDB character IDs to Foundry actor IDs
+1. **CobaltSession Cookie** (`cobaltCookie`)
+    - Your D&D Beyond authentication cookie
+    - Find in browser DevTools > Application > Cookies > D&D Beyond site
+    - Copy the value of the `CobaltSession` cookie
+
+2. **Cobalt User ID** (`userId`)
+    - Your D&D Beyond user ID
+    - Find in browser DevTools > Console > Type in: console.log(Cobalt.User.Id)
+    - Copy the value
+
+3. **Campaign ID** (`campaignId`)
+    - The D&D Beyond campaign ID
+    - Found in the campaign URL: `dndbeyond.com/campaigns/{campaignId}`
+
+4. **Proxy Server URL** (`proxyUrl`)
+    - Custom proxy server for API calls (default: `http://localhost:3000`)
+    - Required, plus see note above about necessary customization
+
+5. **Update Character Damage** (`updateDamageOnly`)
+    - When enabled, character updates sync HP/damage changes (default: `true`)
+    - When disabled, characetr updates are ignored
+
+6. **Character Mapping** (`characterMapping`)
+    - Mapping of D&D Beyond character IDs to Foundry actor IDs
+
+7. **Enable DDB Dice Sync** (`captureRolls`)
+    - Enable/disable automatic roll capture
 
 Refer to `config/SettingsRegistry.js` for exact keys and defaults.
 
 ## Installation
 1. Place the module folder into Foundry's `modules` directory.
 2. Enable the module in Foundry's Module Management.
-3. Configure the module settings; start the optional proxy if required.
+3. Configure the module settings; start the proxy.
 
-If you use an external proxy for D&D Beyond API access, ensure the proxy provides authenticated messages and is reachable via `proxyUrl`.
+Ensure the proxy provides authenticated messages and is reachable via `proxyUrl`.
 
 ## Usage
 - Use the `Character Mapping` UI to map DDB characters to Foundry actors and run manual syncs.

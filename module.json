@@ -12,7 +12,7 @@
     "minimum": "13",
     "verified": "13"
   },
-  "description": "Synchronizes dice rolls and character damage from D&D Beyond to Foundry VTT compatibility for Dice So Nice!, JB2A, and Midi QOL. Also allows for manual rolls configured per actor.",
+  "description": "Synchronizes dice rolls and character damage from D&D Beyond to Foundry VTT compatibility for Dice So Nice!, JB2A, and Midi QOL. Allows for manual rolls configured per actor. IMPORTANT!: Requires external DDB Proxy with manual customization.  See ddb-sync README for details.",
   "authors": [
     {
       "name": "AshDarkley",
@@ -45,6 +45,11 @@
     ],
     "requires": [],
     "recommends": [
+      {
+        "id": "ddb-importer",
+        "type": "module",
+        "compatibility": {}
+      },
       {
         "id": "sequencer",
         "type": "module",

@@ -77,7 +77,7 @@ export class SettingsRegistry {
       scope: 'world',
       config: true,
       type: Boolean,
-      default: false,
+      default: true,
       onChange: value => {
         if (value) {
           game.DDBSync?.connect?.();
@@ -96,7 +96,7 @@ export class SettingsRegistry {
       scope: 'world',
       config: true,
       type: Boolean,
-      default: false
+      default: true
     });
   }
 
