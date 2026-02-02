@@ -105,7 +105,7 @@ Configure settings via the module settings (registered in `config/SettingsRegist
 Refer to `config/SettingsRegistry.js` for exact keys and defaults.
 
 ## Installation
-1. (Easiest) Install from Foundry Install Module screen OR (Less easiest) download the release from this depot, and place the ddb-sync folder into Foundry's `modules` directory.
+1. (Easiest) Install from Foundry Install Module screen OR (Less easiest) download the release from this repo, and place the ddb-sync folder into Foundry's `modules` directory.
 2. Ensure the proxy provides authenticated messages and is reachable via `proxyUrl`. See configuration needed above.
 3. Enable the module in Foundry's Module Management.
 4. Configure the module settings; start the proxy.
@@ -139,3 +139,4 @@ See `module.json` for license metadata.
 
 ## Support
 Open an issue in the repo or contact the maintainer for feature requests and bug reports.
+
