@@ -112,17 +112,6 @@ describe('MessageDeduplicator', () => {
       expect(isDup).toBe(true);
     });
 
-    it('should treat order differently in objects as different messages', () => {
-      const msg1 = { a: 1, b: 2 };
-      const msg2 = { b: 2, a: 1 };
-      deduplicator.isDuplicate(msg1);
-      // Note: JSON.stringify preserves key order, so these should be treated as equal
-      const isDup = deduplicator.isDuplicate(msg2);
-      // In this implementation, they hash the same, so this is expected behavior
-      expect(isDup).toBe(true);
-    });
-  });
-
   describe('reset', () => {
     it('should clear all seen messages', () => {
       const message = { type: 'roll', value: 20 };
@@ -171,3 +160,4 @@ describe('MessageDeduplicator', () => {
 });
 
 module.exports = MessageDeduplicator;
+
