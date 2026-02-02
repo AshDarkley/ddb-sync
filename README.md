@@ -4,7 +4,7 @@
 ![Foundry Minimum Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2FAshDarkley%2Fddb-sync%2Fmain%2Fmodule.json&label=Foundry%20Version&query=$.compatibility.minimum&colorB=orange)
 ![Foundry Verified Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2FAshDarkley%2Fddb-sync%2Fmain%2Fmodule.json&label=Foundry%20Version&query=$.compatibility.verified&colorB=green)
 
-A Foundry VTT module that synchronizes D&D Beyond dice rolls and character health with Foundry VTT in real-time using a WebSocket-based listener and modular service/handler architecture.  No browser extensions needed!
+A Foundry VTT module that synchronizes D&D Beyond dice rolls and character health with Foundry VTT in real-time.  No browser extensions needed!
 
 ## Patreon
 
@@ -12,23 +12,23 @@ Full functionality of this module is freely available.  However, if you like it 
 
 ## Overview
 
-DDB Sync listens for messages from D&D Beyond; deduplicates and dispatches them to specialized handlers to:
-- Capture and apply dice rolls to Foundry actors
-- Sync HP/damage updates without overwriting unrelated character data
-- Provide a UI for mapping D&D Beyond characters to Foundry actors
-- On each player actor sheet choose the desired dice roll type: Normal, Manual (prompt for manual dice entry), D&D Beyond (listen for rolls from D&D Beyond)   
+DDB Sync listens for messages from D&D Beyond and dispatches them to specialized handlers to:
+- Capture and apply dice rolls to Foundry actors (Attack, Damage, Save, Abilitiy Check, Initiative, Generic Roll)
+- Sync HP/damage updates from D&D Beyond to mapped Foundry actor without overwriting unrelated character data
+- Provides a UI for mapping D&D Beyond characters to Foundry actors
+- On Foundry Player Actor sheet provides a dropdown to select dice behavior (Normal, Manual, D&D Beyond)
 
 ## System Requirements
 - **Foundry VTT**: Version 13 or higher (verified on v13)
 - **D&D 5e System**: Required for character and ability mapping
 - **DDB Proxy**: Required to proxy requests to D&D Beyond.  Must be your own install and not Mr Primates hosted version as this require a small change to the proxy to function correctly. 
 
-## IMPORTANT! REQUIRES custom DDB Proxy
+## IMPORTANT! REQUIRES: custom DDB Proxy
 - **DDB Proxy** - A proxy server for D&D Beyond API Access
   - GitHub: [ddb-proxy repository](https://github.com/MrPrimate/ddb-proxy)
   - The proxy intercepts D&D Beyond API calls and provides authenticated access 
 
-**Important**: The DDB Proxy requires a manual configuration change before use.
+**IMPORTANT**: The DDB Proxy requires a manual configuration change before use.
 
 1. Set up the DDB Proxy server from the repository
 2. Open the proxy's `index.js` file
@@ -38,6 +38,8 @@ DDB Sync listens for messages from D&D Beyond; deduplicates and dispatches them 
     // Find this section in index.js:
     res.json({
         token: token, // ADD THIS LINE
+        // Don't remove any existing code, just add the additional line above
+        ...
     });
     ```
 5. Restart the proxy server
@@ -103,17 +105,16 @@ Configure settings via the module settings (registered in `config/SettingsRegist
 Refer to `config/SettingsRegistry.js` for exact keys and defaults.
 
 ## Installation
-1. Place the module folder into Foundry's `modules` directory.
-2. Enable the module in Foundry's Module Management.
-3. Configure the module settings; start the proxy.
-
-Ensure the proxy provides authenticated messages and is reachable via `proxyUrl`.
+1. (Easiest) Install from Foundry Install Module screen OR (Less easiest) download the release from this depot, and place the ddb-sync folder into Foundry's `modules` directory.
+2. Ensure the proxy provides authenticated messages and is reachable via `proxyUrl`. See configuration needed above.
+3. Enable the module in Foundry's Module Management.
+4. Configure the module settings; start the proxy.
 
 ## Usage
-- Use the `Character Mapping` UI to map DDB characters to Foundry actors.
+- Use the `Character Mapping` UI to map DDB characters to Foundry actors and run manual syncs.
 - Enable `captureRolls` to let the module automatically capture and apply relevant rolls.
 - Toggle `updateDamageOnly` if you only want HP/damage changes applied automatically.
-- Open a player actor sheet and choose the desired dice roll "Normal", "Manual", or "D&D Beyond"
+- Open a player actor sheet and select desired dice mode: Normal, Manual, or D&D Beyond
 
 ## Troubleshooting
 - Connection issues: verify `cobaltCookie`, `campaignId`, `proxyUrl` and check browser console logs for WebSocket errors.
@@ -133,9 +134,8 @@ Ensure the proxy provides authenticated messages and is reachable via `proxyUrl`
 - UI & templates: `ui/`, `templates/`
 
 ## License
+MIT License
 See `module.json` for license metadata.
 
 ## Support
 Open an issue in the repo or contact the maintainer for feature requests and bug reports.
-
-
