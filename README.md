@@ -110,9 +110,10 @@ Refer to `config/SettingsRegistry.js` for exact keys and defaults.
 Ensure the proxy provides authenticated messages and is reachable via `proxyUrl`.
 
 ## Usage
-- Use the `Character Mapping` UI to map DDB characters to Foundry actors and run manual syncs.
+- Use the `Character Mapping` UI to map DDB characters to Foundry actors.
 - Enable `captureRolls` to let the module automatically capture and apply relevant rolls.
 - Toggle `updateDamageOnly` if you only want HP/damage changes applied automatically.
+- Open a player actor sheet and choose the desired dice roll "Normal", "Manual", or "D&D Beyond"
 
 ## Troubleshooting
 - Connection issues: verify `cobaltCookie`, `campaignId`, `proxyUrl` and check browser console logs for WebSocket errors.
@@ -136,4 +137,5 @@ See `module.json` for license metadata.
 
 ## Support
 Open an issue in the repo or contact the maintainer for feature requests and bug reports.
+
 
