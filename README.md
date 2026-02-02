@@ -16,6 +16,7 @@ DDB Sync listens for messages from D&D Beyond; deduplicates and dispatches them 
 - Capture and apply dice rolls to Foundry actors
 - Sync HP/damage updates without overwriting unrelated character data
 - Provide a UI for mapping D&D Beyond characters to Foundry actors
+- On each player actor sheet choose the desired dice roll type: Normal, Manual (prompt for manual dice entry), D&D Beyond (listen for rolls from D&D Beyond)   
 
 ## System Requirements
 - **Foundry VTT**: Version 13 or higher (verified on v13)
@@ -135,3 +136,4 @@ See `module.json` for license metadata.
 
 ## Support
 Open an issue in the repo or contact the maintainer for feature requests and bug reports.
+
