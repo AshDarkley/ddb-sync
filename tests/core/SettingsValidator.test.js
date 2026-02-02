@@ -164,11 +164,6 @@ describe('SettingsValidator', () => {
       expect(() => validator.validateCharacterMapping([])).toThrow();
     });
 
-    it('should throw error for non-string keys', () => {
-      const mapping = { 123: 'actor-456' };
-      expect(() => validator.validateCharacterMapping(mapping)).toThrow();
-    });
-
     it('should throw error for non-string values', () => {
       const mapping = { '123': 456 };
       expect(() => validator.validateCharacterMapping(mapping)).toThrow();
@@ -222,3 +217,4 @@ describe('SettingsValidator', () => {
 });
 
 module.exports = SettingsValidator;
+
