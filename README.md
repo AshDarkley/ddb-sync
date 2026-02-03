@@ -83,7 +83,7 @@ Configure settings via the module settings (registered in `config/SettingsRegist
 
 2. **Cobalt User ID** (`userId`)
     - Your D&D Beyond user ID
-    - Find in browser DevTools > Console > Type in: console.log(Cobalt.User.Id)
+    - Find in browser DevTools > Console > Type in: console.log(Cobalt.User.ID)
     - Copy the value
 
 3. **Campaign ID** (`campaignId`)
@@ -141,6 +141,7 @@ See `module.json` for license metadata.
 
 ## Support
 Open an issue in the repo or contact the maintainer for feature requests and bug reports.
+
 
 
 
