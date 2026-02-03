@@ -35,13 +35,13 @@ DDB Sync listens for messages from D&D Beyond and dispatches them to specialized
 3. Locate the `/proxy/auth` endpoint
 4. Modify the auth response to include the token:
     ```javascript
-    // Find this section in index.js:
-    res.json({
-        token: token, // ADD THIS LINE
-        // Don't remove any existing code, just add the additional line above
-        ...
-    });
+    // Find this section in index.js under the line that reads: const authPath = ["/proxy/auth"];:
+    return res.status(200).json({ success: true, message: "Authenticated." });
+    
+    //update it to read this instead:
+    return res.status(200).json({ success: true, message: "Authenticated.", token: token });
     ```
+    ![DDB Proxy Edit Location](ddb-proxy-mod.png)
 5. Restart the proxy server
 
 This ensures the module can receive the authentication token needed for subsequent API calls.
@@ -139,4 +139,5 @@ See `module.json` for license metadata.
 
 ## Support
 Open an issue in the repo or contact the maintainer for feature requests and bug reports.
+
 
