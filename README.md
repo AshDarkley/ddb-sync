@@ -41,6 +41,8 @@ DDB Sync listens for messages from D&D Beyond and dispatches them to specialized
     //update it to read this instead:
     return res.status(200).json({ success: true, message: "Authenticated.", token: token });
     ```
+
+  SCREENSHOT:
     ![DDB Proxy Edit Location](ddb-proxy-mod.png)
 5. Restart the proxy server
 
@@ -139,5 +141,6 @@ See `module.json` for license metadata.
 
 ## Support
 Open an issue in the repo or contact the maintainer for feature requests and bug reports.
+
 
 
