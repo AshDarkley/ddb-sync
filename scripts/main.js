@@ -6,6 +6,14 @@ import { DiceModeSelector } from './ui/DiceModeSelector.js';
 
 // Initialize on Foundry ready
 Hooks.once('init', () => {
+
+});
+
+// Connect on Foundry ready if enabled
+Hooks.once('ready', async () => {
+  // Only GMs should initialize the DDB Sync Manager
+  if (!game.user.isGM) return;
+
   DDBSyncManager.initialize();
   
   // Initialize Roll.prototype.evaluate override with shared DiceInputDialog
@@ -14,10 +22,7 @@ Hooks.once('init', () => {
     game.DDBSync?.diceInputDialog
   );
   rollEvaluationOverride.initialize();
-});
 
-// Connect on Foundry ready if enabled
-Hooks.once('ready', async () => {
   const enabled = game.settings.get(DDBSyncManager.ID, 'enabled');
   if (enabled && game.DDBSync) {
     console.log('DDB Sync | Connecting on startup (enabled setting is true)');

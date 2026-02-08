@@ -111,6 +111,7 @@ describe('MessageDeduplicator', () => {
       const isDup = deduplicator.isDuplicate(message);
       expect(isDup).toBe(true);
     });
+  });
 
   describe('reset', () => {
     it('should clear all seen messages', () => {

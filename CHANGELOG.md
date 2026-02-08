@@ -1,3 +1,8 @@
+# 0.0.6
+
+- Only process DDB messages on GM account.  Prevents issue with multiple rolls being performed.  Refactored main.js initialize into ready hook so we know if user is GM or not.
+- Fixed syntax issue with MessageDeduplicator.test.js
+
 # 0.0.5
 
 - Initial Alpha Release
