@@ -47,7 +47,25 @@ export class SettingsRegistry {
       type: String,
       default: 'http://localhost:3000'
     });
+    // Inside SettingsRegistry.js or wherever you register settings
+    game.settings.register('ddb-sync', 'proxyUsername', {
+      name: 'Proxy Username',
+      hint: 'Username for Traefik Basic Auth.',
+      scope: 'world',
+      config: true,
+      type: String,
+	    default: 'admin'
+    });
 
+    game.settings.register('ddb-sync', 'proxyPassword', {
+      name: 'Proxy Password',
+      hint: 'Password for Traefik Basic Auth.',
+      scope: 'world',
+      config: true,
+      type: String,
+      default: '',
+      password: true // This keeps it hidden in the UI
+    });
     // User ID Setting
     game.settings.register(this.MODULE_ID, 'userId', {
       name: 'DDB.Settings.UserId.Name',

@@ -130,11 +130,13 @@ export class DDBSyncManager {
     const campaignId = game.settings.get(DDBSyncManager.ID, 'campaignId');
     const userId = game.settings.get(DDBSyncManager.ID, 'userId');
     const proxyUrl = game.settings.get(DDBSyncManager.ID, 'proxyUrl');
+    const proxyUser = game.settings.get(DDBSyncManager.ID, 'proxyUsername') || "";
+    const proxyPass = game.settings.get(DDBSyncManager.ID, 'proxyPassword') || "";
 
     console.log('DDB Sync | Connection attempt - Cookie: *** Campaign:', campaignId, 'User:', userId);
 
     // Create WebSocket manager with dependency injection
-    this.websocketManager = new WebSocketManager(cobaltCookie, campaignId, userId, proxyUrl);
+    this.websocketManager = new WebSocketManager(cobaltCookie, campaignId, userId, proxyUrl, proxyUser, proxyPass);
 
     // Register event handlers
     this.websocketManager.on('message', this.handleDDBMessage.bind(this));
