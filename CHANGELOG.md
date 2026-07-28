@@ -1,3 +1,8 @@
+# 0.0.14
+- Conditions set on a D&D Beyond character sheet now sync to the mapped Foundry actor, including exhaustion levels. Conditions cleared on D&D Beyond are cleared in Foundry. Only the 15 core 5e conditions are touched; other status effects (concentration, GM markers, other modules') are left alone. New world setting: `Update Character Conditions From D&D Beyond` (on by default).
+- Character updates are now handled by one `CharacterUpdateMessageHandler` that fetches the character from the proxy once and feeds every sync service (HP, conditions), instead of one fetch per sync. Replaces `DamageMessageHandler`.
+- The existing `Update Character Damage From D&D Beyond` setting is now actually honoured — it was registered but never read, so HP always synced regardless of the checkbox.
+
 # 0.0.7
 - Thanks to unnamedjk. Now supports username/password htauth for custom proxies
 - Thanks to unnamedjk. Has cleaner order for Attack and Damage handler matching before the generic fallback

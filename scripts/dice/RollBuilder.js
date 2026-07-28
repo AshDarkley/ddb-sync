@@ -3,9 +3,11 @@
  * Responsibility: Create Foundry rolls with DDB dice results
  * SOLID: Single Responsibility - only builds and evaluates rolls
  */
+import { Logger } from '../utils/Logger.js';
+
 export class RollBuilder {
   constructor() {
-    this.logger = console;
+    this.logger = Logger;
   }
 
   /**
@@ -17,7 +19,8 @@ export class RollBuilder {
   async buildRollWithDDBResults(formula, ddbDiceResults) {
     try {
       const roll = new Roll(formula);
-      await roll.evaluate();
+      // minimize: true skips real RNG — results are overwritten by DDB values anyway
+      await roll.evaluate({ minimize: true });
 
       // Substitute DDB dice results into the roll
       this.substituteDDBResults(roll, ddbDiceResults);
@@ -60,17 +63,56 @@ export class RollBuilder {
     for (const term of roll.terms) {
       if (term instanceof foundry.dice.terms.Die) {
         const ddbDice = ddbDiceResults[diceIndex];
-        ddbDice.results.sort((a, b) => a - b); // Sort DDB results ascending
-        term.results.sort((a, b) => a.result - b.result); // Sort Foundry results ascending
 
         if (ddbDice && ddbDice.results) {
-          // Replace the rolled results with DDB results
+          // Substitute values and reset active flags before re-applying modifiers
           for (let i = 0; i < term.results.length && i < ddbDice.results.length; i++) {
             term.results[i].result = ddbDice.results[i];
+            term.results[i].active = true;
+            delete term.results[i].discarded;
           }
+
+          // Re-apply kh/kl modifiers based on the actual DDB values so the correct
+          // die is marked active. We cannot rely on minimize-time flag placement
+          // because all minimized dice tie at 1, making the sort a no-op.
+          this._reapplyKeepModifiers(term);
+
           this.logger.log(`DDB Sync | Substituted ${ddbDice.dieType} results into roll`);
         }
         diceIndex++;
+      }
+    }
+  }
+
+  /**
+   * Re-apply keep-highest / keep-lowest modifiers after result substitution.
+   * Reads term.modifiers (e.g. ['kh1'] or ['kl1']) and sets active/discarded flags
+   * based on the current result values rather than the stale minimize-time ordering.
+   * @private
+   */
+  _reapplyKeepModifiers(term) {
+    const modifiers = term.modifiers || [];
+    const khMatch = modifiers.find(m => /^kh\d+$/.test(m));
+    const klMatch = modifiers.find(m => /^kl\d+$/.test(m));
+
+    if (!khMatch && !klMatch) return;
+
+    const keepHighest = !!khMatch;
+    const keepCount = parseInt((khMatch || klMatch).replace(/^k[hl]/, ''));
+
+    // Sort by result value (desc for kh, asc for kl) to find which indices to keep
+    const indexed = term.results.map((r, i) => ({ value: r.result, index: i }));
+    indexed.sort((a, b) => keepHighest ? b.value - a.value : a.value - b.value);
+
+    const keptIndices = new Set(indexed.slice(0, keepCount).map(r => r.index));
+
+    for (let i = 0; i < term.results.length; i++) {
+      if (keptIndices.has(i)) {
+        term.results[i].active = true;
+        delete term.results[i].discarded;
+      } else {
+        term.results[i].active = false;
+        term.results[i].discarded = true;
       }
     }
   }

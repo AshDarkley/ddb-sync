@@ -1,4 +1,6 @@
 import { IRollHandler } from '../interfaces/IRollHandler.js';
+import { RollModePolicy } from '../RollModePolicy.js';
+import { Logger } from '../../utils/Logger.js';
 
 /**
  * Initiative Roll Handler
@@ -11,7 +13,7 @@ export class InitiativeRollHandler extends IRollHandler {
     super();
     this.diceExtractor = diceExtractor;
     this.rollBuilder = rollBuilder;
-    this.logger = console;
+    this.logger = Logger;
   }
 
   /**
@@ -58,11 +60,14 @@ export class InitiativeRollHandler extends IRollHandler {
     if (initiativeBuild.isAdvantage) { 
       flavor += ' (Advantage)';
     }
-    else if (initiativeBuild.isDisadvantage) { 
+    else if (initiativeBuild.isDisadvantage) {
       flavor += ' (Disadvantage)';
     }
 
-    await roll.toMessage({ flavor, speaker });
+    if (typeof roll.toMessage === 'function') {
+      RollModePolicy.suppressAnimation();
+      await roll.toMessage({ flavor, speaker }, RollModePolicy.messageOptions(actor));
+    }
 
     this.logger.log(`DDB Sync | Processed Initiative roll for ${actor.name}`);
 

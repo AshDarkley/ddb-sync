@@ -1,56 +1,38 @@
-import { IDamageSync } from '../interfaces/IDamageSync.js';
+import { ICharacterSync } from '../interfaces/ICharacterSync.js';
+import { Logger } from '../../utils/Logger.js';
 
 /**
  * Damage Sync Service
  * Responsibility: Handle damage synchronization from DDB to Foundry actors
  * SOLID: Single Responsibility - only handles damage updates
  */
-export class DamageSyncService extends IDamageSync {
-  constructor(characterDataService) {
+export class DamageSyncService extends ICharacterSync {
+  constructor() {
     super();
-    this.characterDataService = characterDataService;
-    this.logger = console;
+    this.logger = Logger;
   }
 
   /**
-   * Handle damage message from DDB WebSocket
-   * @param {Object} message - DDB message containing damage data
+   * Whether damage syncing is switched on in module settings.
+   * @returns {boolean}
+   */
+  isEnabled() {
+    try {
+      return game.settings.get('ddb-sync', 'updateDamageOnly') !== false;
+    } catch {
+      return true;
+    }
+  }
+
+  /**
+   * Apply the DDB character's damage to the actor.
+   * @param {Actor} actor - The mapped Foundry actor
+   * @param {Object} character - The DDB character JSON
    * @returns {Promise<void>}
    */
-  async handleDamageUpdate(message) {
-    try {
-      if (!message.characterId) {
-        this.logger.warn('DDB Sync | Invalid damage message format');
-        return;
-      }
-
-      const ddbCharacterId = message.characterId;
-
-      // Fetch character data from CharacterDataService
-      const proxyResult = await this.characterDataService.fetchCharacterData(ddbCharacterId);
-      if (!proxyResult || !proxyResult.success || !proxyResult.ddb?.character) {
-        this.logger.warn(`DDB Sync | Failed to fetch character data for ${ddbCharacterId}`);
-        return;
-      }
-
-      const character = proxyResult.ddb.character;
-
-      const damageAmount = character.removedHitPoints || 0;
-
-      // Get character mapping
-      const mapping = game.settings.get('ddb-sync', 'characterMapping');
-      const foundryActorId = mapping[ddbCharacterId];
-
-      if (!foundryActorId) {
-        this.logger.warn(`DDB Sync | No mapping found for DDB character ${ddbCharacterId}`);
-        return;
-      }
-
-      await this.applyDamage(foundryActorId, damageAmount);
-    } catch (err) {
-      this.logger.error('DDB Sync | Error handling damage update:', err);
-      ui.notifications.error('DDB Sync: Error processing damage update');
-    }
+  async applyFromCharacter(actor, character) {
+    if (!actor) return;
+    await this.applyDamage(actor.id, character?.removedHitPoints || 0);
   }
 
   /**

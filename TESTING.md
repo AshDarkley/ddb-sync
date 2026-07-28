@@ -50,12 +50,16 @@ tests/
 │   ├── services/
 │   │   ├── CharacterDataService.test.js
 │   │   ├── CharacterMapper.test.js
+│   │   ├── ConditionMapper.test.js
+│   │   ├── ConditionSyncService.test.js
 │   │   ├── DamageSyncService.test.js
 │   │   └── MessageDispatcher.test.js
 │   ├── handlers/
-│   │   ├── DamageMessageHandler.test.js
+│   │   ├── CharacterUpdateMessageHandler.test.js
 │   │   └── DiceRollMessageHandler.test.js
 │   └── SettingsValidator.test.js
+├── mirrors/
+│   └── ConditionMapper.js        # CommonJS mirror shared by two suites
 ├── dice/
 │   ├── DiceExtractor.test.js
 │   ├── RollBuilder.test.js
@@ -121,13 +125,30 @@ Tests handling of incoming dice roll messages:
 - Routing to appropriate roll handlers via dispatcher
 - Using default values for optional fields
 
-#### DamageMessageHandler.test.js
-Tests handling of damage/HP update messages:
-- Supporting various message types (damage, hp_update, character_update)
-- Extracting character IDs from different message structures
-- Syncing damage to mapped characters
-- Gracefully handling unmapped characters
-- Error handling and reporting
+#### CharacterUpdateMessageHandler.test.js
+Tests handling of character update messages (HP, conditions, ...):
+- Recognising the fulfilled character-update event and ignoring everything else
+- Fetching character data once and feeding every registered sync service
+- Skipping sync services disabled in settings, and skipping the fetch entirely
+  when all of them are disabled
+- Gracefully handling unmapped characters and failed proxy fetches
+- Isolating a failing sync service so the others still run
+
+### Condition Sync
+
+#### ConditionMapper.test.js
+Tests translation of D&D Beyond condition ids into dnd5e status ids:
+- The 15 core conditions, including string ids from the payload
+- Exhaustion levels (defaulting, clamping) kept separate from on/off conditions
+- Ignoring unknown/homebrew condition ids and missing condition lists
+
+#### ConditionSyncService.test.js
+Tests applying D&D Beyond conditions to a Foundry actor:
+- Applying and removing conditions to match D&D Beyond
+- Leaving status effects the module does not own untouched
+- Doing nothing when Foundry already matches
+- Exhaustion level writes and status reconciliation
+- Error handling when a status effect cannot be toggled
 
 ### Dice Handlers
 
