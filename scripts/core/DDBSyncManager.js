@@ -3,8 +3,9 @@ import { SettingsValidator } from './validators/SettingsValidator.js';
 import { WebSocketManager } from './services/WebSocketManager.js';
 import { CharacterDataService } from './services/CharacterDataService.js';
 import { DamageSyncService } from './services/DamageSyncService.js';
+import { ConditionSyncService } from './services/ConditionSyncService.js';
 import { MessageDispatcher } from './services/MessageDispatcher.js';
-import { DamageMessageHandler } from './handlers/DamageMessageHandler.js';
+import { CharacterUpdateMessageHandler } from './handlers/CharacterUpdateMessageHandler.js';
 import { DiceRollMessageHandler } from './handlers/DiceRollMessageHandler.js';
 import { CharacterMapper } from './services/CharacterMapper.js';
 import { DiceRollHandler } from '../dice/DiceRollHandler.js';
@@ -29,7 +30,8 @@ export class DDBSyncManager {
   constructor() {
     // Initialize services
     this.characterDataService = new CharacterDataService();
-    this.damageSyncService = new DamageSyncService(this.characterDataService);
+    this.damageSyncService = new DamageSyncService();
+    this.conditionSyncService = new ConditionSyncService();
     this.messageDispatcher = new MessageDispatcher();
     this.websocketManager = null;
     this.messageDeduplicator = new MessageDeduplicator();
@@ -54,12 +56,17 @@ export class DDBSyncManager {
    * SOLID: Open/Closed - easy to add new handlers without modifying this code
    */
   registerHandlers() {
-    // DiceRollMessageHandler first: dice/roll/fulfilled is the hot path,
-    // so it should win the canHandle scan before DamageMessageHandler is checked.
+    // DiceRollMessageHandler first: dice/roll/fulfilled is the hot path, so it
+    // should win the canHandle scan before CharacterUpdateMessageHandler is checked.
     this.messageDispatcher.registerHandler(this.diceRollMessageHandler);
 
-    const damageHandler = new DamageMessageHandler(this.damageSyncService);
-    this.messageDispatcher.registerHandler(damageHandler);
+    // One character-update event, one proxy fetch, every sync service fed from it.
+    const characterUpdateHandler = new CharacterUpdateMessageHandler(
+      this.characterDataService,
+      this.characterMapper,
+      [this.damageSyncService, this.conditionSyncService]
+    );
+    this.messageDispatcher.registerHandler(characterUpdateHandler);
   }
 
   /**

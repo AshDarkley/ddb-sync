@@ -125,6 +125,16 @@ export class SettingsRegistry {
       type: Boolean,
       default: true
     });
+
+    // Sync conditions from D&D Beyond
+    game.settings.register(this.MODULE_ID, 'syncConditions', {
+      name: 'DDB.Settings.SyncConditions.Name',
+      hint: 'DDB.Settings.SyncConditions.Hint',
+      scope: 'world',
+      config: true,
+      type: Boolean,
+      default: true
+    });
   }
 
   static registerDataSettings() {

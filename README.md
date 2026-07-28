@@ -15,6 +15,7 @@ Full functionality of this module is freely available.  However, if you like it 
 DDB Sync listens for messages from D&D Beyond and dispatches them to specialized handlers to:
 - Capture and apply dice rolls to Foundry actors (Attack, Damage, Save, Abilitiy Check, Initiative, Generic Roll)
 - Sync HP/damage updates from D&D Beyond to mapped Foundry actor without overwriting unrelated character data
+- Sync conditions (including exhaustion levels) a player sets on their D&D Beyond sheet to the mapped Foundry actor
 - Provides a UI for mapping D&D Beyond characters to Foundry actors
 - On Foundry Player Actor sheet provides a dropdown to select dice behavior (Normal, Manual, D&D Beyond)
 
@@ -96,12 +97,17 @@ Configure settings via the module settings (registered in `config/SettingsRegist
 
 5. **Update Character Damage** (`updateDamageOnly`)
     - When enabled, character updates sync HP/damage changes (default: `true`)
-    - When disabled, characetr updates are ignored
+    - When disabled, HP/damage changes are ignored
 
-6. **Character Mapping** (`characterMapping`)
+6. **Update Character Conditions** (`syncConditions`)
+    - When enabled, conditions set on the D&D Beyond sheet are applied to the mapped
+      Foundry actor, and conditions cleared on D&D Beyond are removed (default: `true`)
+    - When disabled, condition changes are ignored
+
+7. **Character Mapping** (`characterMapping`)
     - Mapping of D&D Beyond character IDs to Foundry actor IDs
 
-7. **Enable DDB Dice Sync** (`captureRolls`)
+8. **Enable DDB Dice Sync** (`captureRolls`)
     - Enable/disable automatic roll capture
 
 Refer to `config/SettingsRegistry.js` for exact keys and defaults.
@@ -116,7 +122,21 @@ Refer to `config/SettingsRegistry.js` for exact keys and defaults.
 - Use the `Character Mapping` UI to map DDB characters to Foundry actors and run manual syncs.
 - Enable `captureRolls` to let the module automatically capture and apply relevant rolls.
 - Toggle `updateDamageOnly` if you only want HP/damage changes applied automatically.
+- Toggle `syncConditions` if you want conditions applied automatically.
 - Open a player actor sheet and select desired dice mode: Normal, Manual, or D&D Beyond
+
+### Condition sync
+When a player sets or clears a condition on their D&D Beyond character sheet, the mapped
+Foundry actor is brought in line with it:
+
+- The 15 core 5e conditions are mirrored. D&D Beyond is the source of truth, so a condition
+  cleared there is switched off in Foundry as well.
+- Exhaustion is applied as a level (`system.attributes.exhaustion`), not as a plain on/off status.
+- Any other status effect — a GM's `concentrating` or `dead` marker, statuses set by other
+  modules — is never touched by the sync.
+- Because D&D Beyond is authoritative, a condition the GM applies in Foundry alone is removed
+  again the next time that character changes on D&D Beyond. Turn `syncConditions` off if you
+  would rather manage conditions in Foundry.
 
 ## Troubleshooting
 - Connection issues: verify `cobaltCookie`, `campaignId`, `proxyUrl` and check browser console logs for WebSocket errors.
